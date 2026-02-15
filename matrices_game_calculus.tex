@@ -1,0 +1,846 @@
+% WAEC General Mathematics Lecture Notes
+% Topic: Matrices, Determinants, Game Theory, Implicit Differentiation, Integral Calculus
+% Paper Size: Ledger (11in x 17in)
+
+\documentclass[10pt]{article}
+\usepackage[landscape,paperwidth=17in,paperheight=11in,margin=0.6in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{booktabs}
+
+\usetikzlibrary{shapes,arrows,positioning,calc,matrix}
+
+% Define custom colors
+\definecolor{primaryblue}{RGB}{0,102,204}
+\definecolor{secondarygreen}{RGB}{0,153,76}
+\definecolor{warningred}{RGB}{204,0,0}
+\definecolor{exampleorange}{RGB}{255,140,0}
+\definecolor{purplemath}{RGB}{102,0,153}
+
+% Custom theorem environments
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{exercise}{Exercise}[section]
+
+% Custom boxes
+\newtcolorbox{keypoint}{colback=primaryblue!5,colframe=primaryblue,title=Key Point}
+\newtcolorbox{formulabox}{colback=secondarygreen!5,colframe=secondarygreen,title=Important Formula}
+\newtcolorbox{warningbox}{colback=warningred!5,colframe=warningred,title=Common Mistake}
+\newtcolorbox{examplebox}{colback=exampleorange!5,colframe=exampleorange,title=Worked Example}
+
+% Header and Footer
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{WAEC General Mathematics}}
+\chead{\textbf{Matrices, Game Theory \& Calculus}}
+\rhead{\textbf{Lecture Notes}}
+\cfoot{\thepage}
+\setlength{\headheight}{14pt}
+
+\title{\Huge\bfseries Matrices \& Determinants\\
+Game Theory\\
+Implicit Differentiation \& Integral Calculus\\[0.3cm]
+\Large WAEC General Mathematics Comprehensive Lecture Notes}
+\author{Academic Lecture Series}
+\date{}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+
+\begin{multicols}{2}
+
+\section{Matrices and Determinants}
+
+\subsection{Introduction to Matrices}
+
+\begin{definition}
+A \textbf{matrix} is a rectangular array of numbers, symbols, or expressions arranged in rows and columns.
+
+A matrix with $m$ rows and $n$ columns is called an $m \times n$ matrix (read "$m$ by $n$").
+
+\textbf{General form:}
+\[A = \begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{pmatrix}\]
+
+where $a_{ij}$ is the element in row $i$, column $j$.
+\end{definition}
+
+\begin{definition}
+\textbf{Types of Matrices:}
+\begin{itemize}
+\item \textbf{Row Matrix:} $1 \times n$ matrix (single row)
+\item \textbf{Column Matrix:} $m \times 1$ matrix (single column)
+\item \textbf{Square Matrix:} $n \times n$ matrix (equal rows and columns)
+\item \textbf{Zero/Null Matrix:} All elements are zero
+\item \textbf{Identity Matrix} $I_n$: Square matrix with 1's on main diagonal, 0's elsewhere
+\[I_2 = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}, \quad I_3 = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{pmatrix}\]
+\end{itemize}
+\end{definition}
+
+\subsection{Matrix Operations}
+
+\begin{definition}
+\textbf{Matrix Addition:} Two matrices can be added if they have the same dimensions. Add corresponding elements.
+
+If $A = (a_{ij})$ and $B = (b_{ij})$, then $A + B = (a_{ij} + b_{ij})$
+\end{definition}
+
+\begin{examplebox}
+\textbf{Example 1.1:} Find $A + B$ where:
+\[A = \begin{pmatrix} 2 & 3 \\ 1 & 4 \end{pmatrix}, \quad B = \begin{pmatrix} 5 & 1 \\ 2 & 3 \end{pmatrix}\]
+
+\textbf{Solution:}
+\begin{align*}
+A + B &= \begin{pmatrix} 2+5 & 3+1 \\ 1+2 & 4+3 \end{pmatrix}\\
+&= \begin{pmatrix} 7 & 4 \\ 3 & 7 \end{pmatrix}
+\end{align*}
+\end{examplebox}
+
+\begin{definition}
+\textbf{Scalar Multiplication:} Multiply each element of a matrix by a scalar (number).
+
+If $k$ is a scalar and $A = (a_{ij})$, then $kA = (ka_{ij})$
+\end{definition}
+
+\begin{examplebox}
+\textbf{Example 1.2:} Find $3A$ where $A = \begin{pmatrix} 2 & -1 \\ 3 & 4 \end{pmatrix}$
+
+\textbf{Solution:}
+\[3A = \begin{pmatrix} 3(2) & 3(-1) \\ 3(3) & 3(4) \end{pmatrix} = \begin{pmatrix} 6 & -3 \\ 9 & 12 \end{pmatrix}\]
+\end{examplebox}
+
+\begin{definition}
+\textbf{Matrix Multiplication:} Matrix $A$ (size $m \times n$) can be multiplied by matrix $B$ (size $n \times p$) only if the number of columns in $A$ equals the number of rows in $B$. The result is an $m \times p$ matrix.
+
+\[(AB)_{ij} = \sum_{k=1}^{n} a_{ik}b_{kj}\]
+
+(Multiply row $i$ of $A$ by column $j$ of $B$)
+\end{definition}
+
+\begin{examplebox}
+\textbf{Example 1.3:} Find $AB$ where:
+\[A = \begin{pmatrix} 2 & 3 \\ 1 & 4 \end{pmatrix}, \quad B = \begin{pmatrix} 5 & 1 \\ 2 & 3 \end{pmatrix}\]
+
+\textbf{Solution:}
+\begin{align*}
+AB &= \begin{pmatrix} 2(5)+3(2) & 2(1)+3(3) \\ 1(5)+4(2) & 1(1)+4(3) \end{pmatrix}\\
+&= \begin{pmatrix} 10+6 & 2+9 \\ 5+8 & 1+12 \end{pmatrix}\\
+&= \begin{pmatrix} 16 & 11 \\ 13 & 13 \end{pmatrix}
+\end{align*}
+\end{examplebox}
+
+\begin{warningbox}
+\textbf{Important:} Matrix multiplication is NOT commutative!
+
+In general, $AB \neq BA$
+\end{warningbox}
+
+\subsection{Determinants}
+
+\begin{definition}
+The \textbf{determinant} is a scalar value that can be computed from a square matrix. It has important properties related to matrix inverses and solving systems of equations.
+
+\textbf{For $2 \times 2$ matrix:}
+\[\det(A) = |A| = \begin{vmatrix} a & b \\ c & d \end{vmatrix} = ad - bc\]
+
+\textbf{For $3 \times 3$ matrix:}
+\[\begin{vmatrix} a & b & c \\ d & e & f \\ g & h & i \end{vmatrix} = a\begin{vmatrix} e & f \\ h & i \end{vmatrix} - b\begin{vmatrix} d & f \\ g & i \end{vmatrix} + c\begin{vmatrix} d & e \\ g & h \end{vmatrix}\]
+\[= a(ei - fh) - b(di - fg) + c(dh - eg)\]
+\end{definition}
+
+\begin{examplebox}
+\textbf{Example 1.4:} Find the determinant of $A = \begin{pmatrix} 3 & 2 \\ 1 & 4 \end{pmatrix}$
+
+\textbf{Solution:}
+\begin{align*}
+|A| &= \begin{vmatrix} 3 & 2 \\ 1 & 4 \end{vmatrix}\\
+&= 3(4) - 2(1)\\
+&= 12 - 2\\
+&= 10
+\end{align*}
+\end{examplebox}
+
+\begin{examplebox}
+\textbf{Example 1.5:} Find the determinant of:
+\[A = \begin{pmatrix} 2 & 1 & 3 \\ 0 & 4 & 1 \\ 1 & 2 & 0 \end{pmatrix}\]
+
+\textbf{Solution:}
+Expanding along first row:
+\begin{align*}
+|A| &= 2\begin{vmatrix} 4 & 1 \\ 2 & 0 \end{vmatrix} - 1\begin{vmatrix} 0 & 1 \\ 1 & 0 \end{vmatrix} + 3\begin{vmatrix} 0 & 4 \\ 1 & 2 \end{vmatrix}\\
+&= 2(4 \cdot 0 - 1 \cdot 2) - 1(0 \cdot 0 - 1 \cdot 1) + 3(0 \cdot 2 - 4 \cdot 1)\\
+&= 2(-2) - 1(-1) + 3(-4)\\
+&= -4 + 1 - 12\\
+&= -15
+\end{align*}
+\end{examplebox}
+
+\subsection{Inverse of a Matrix}
+
+\begin{definition}
+For a square matrix $A$, the \textbf{inverse matrix} $A^{-1}$ satisfies:
+\[AA^{-1} = A^{-1}A = I\]
+
+A matrix is \textbf{invertible} (or non-singular) if $|A| \neq 0$.
+
+\textbf{For $2 \times 2$ matrix:}
+If $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$, then:
+\[A^{-1} = \frac{1}{ad - bc}\begin{pmatrix} d & -b \\ -c & a \end{pmatrix} = \frac{1}{|A|}\begin{pmatrix} d & -b \\ -c & a \end{pmatrix}\]
+\end{definition}
+
+\begin{examplebox}
+\textbf{Example 1.6:} Find the inverse of $A = \begin{pmatrix} 3 & 2 \\ 1 & 4 \end{pmatrix}$
+
+\textbf{Solution:}
+First, find determinant:
+\[|A| = 3(4) - 2(1) = 10\]
+
+Since $|A| \neq 0$, the inverse exists:
+\begin{align*}
+A^{-1} &= \frac{1}{10}\begin{pmatrix} 4 & -2 \\ -1 & 3 \end{pmatrix}\\
+&= \begin{pmatrix} 0.4 & -0.2 \\ -0.1 & 0.3 \end{pmatrix}
+\end{align*}
+
+Verify: $AA^{-1} = \begin{pmatrix} 3 & 2 \\ 1 & 4 \end{pmatrix}\begin{pmatrix} 0.4 & -0.2 \\ -0.1 & 0.3 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$ (correct)
+\end{examplebox}
+
+\subsection{Solving Systems of Equations}
+
+\begin{keypoint}
+A system of linear equations can be written in matrix form:
+\[AX = B\]
+
+If $A$ is invertible, the solution is:
+\[X = A^{-1}B\]
+\end{keypoint}
+
+\begin{examplebox}
+\textbf{Example 1.7:} Solve the system using matrices:
+\begin{align*}
+3x + 2y &= 7\\
+x + 4y &= 11
+\end{align*}
+
+\textbf{Solution:}
+Write in matrix form:
+\[\begin{pmatrix} 3 & 2 \\ 1 & 4 \end{pmatrix}\begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 7 \\ 11 \end{pmatrix}\]
+
+From Example 1.6, we know:
+\[A^{-1} = \begin{pmatrix} 0.4 & -0.2 \\ -0.1 & 0.3 \end{pmatrix}\]
+
+Therefore:
+\begin{align*}
+\begin{pmatrix} x \\ y \end{pmatrix} &= \begin{pmatrix} 0.4 & -0.2 \\ -0.1 & 0.3 \end{pmatrix}\begin{pmatrix} 7 \\ 11 \end{pmatrix}\\
+&= \begin{pmatrix} 0.4(7) - 0.2(11) \\ -0.1(7) + 0.3(11) \end{pmatrix}\\
+&= \begin{pmatrix} 2.8 - 2.2 \\ -0.7 + 3.3 \end{pmatrix}\\
+&= \begin{pmatrix} 0.6 \\ 2.6 \end{pmatrix}
+\end{align*}
+
+Wait, let me recalculate properly:
+\begin{align*}
+\begin{pmatrix} x \\ y \end{pmatrix} &= \begin{pmatrix} 0.4 & -0.2 \\ -0.1 & 0.3 \end{pmatrix}\begin{pmatrix} 7 \\ 11 \end{pmatrix}\\
+&= \begin{pmatrix} 2.8 - 2.2 \\ -0.7 + 3.3 \end{pmatrix}\\
+&= \begin{pmatrix} 0.6 \\ 2.6 \end{pmatrix}
+\end{align*}
+
+Actually, this doesn't give integer values. Let me verify the inverse calculation again. From $A = \begin{pmatrix} 3 & 2 \\ 1 & 4 \end{pmatrix}$:
+
+$|A| = 12 - 2 = 10$
+
+$A^{-1} = \frac{1}{10}\begin{pmatrix} 4 & -2 \\ -1 & 3 \end{pmatrix}$
+
+\begin{align*}
+\begin{pmatrix} x \\ y \end{pmatrix} &= \frac{1}{10}\begin{pmatrix} 4 & -2 \\ -1 & 3 \end{pmatrix}\begin{pmatrix} 7 \\ 11 \end{pmatrix}\\
+&= \frac{1}{10}\begin{pmatrix} 28 - 22 \\ -7 + 33 \end{pmatrix}\\
+&= \frac{1}{10}\begin{pmatrix} 6 \\ 26 \end{pmatrix}\\
+&= \begin{pmatrix} 0.6 \\ 2.6 \end{pmatrix}
+\end{align*}
+
+Hmm, non-integer. Let me verify: $3(0.6) + 2(2.6) = 1.8 + 5.2 = 7$ (correct)
+$0.6 + 4(2.6) = 0.6 + 10.4 = 11$ (correct)
+
+So $x = 0.6, y = 2.6$ or in fractions: $x = \frac{3}{5}, y = \frac{13}{5}$
+\end{examplebox}
+
+\section{Game Theory}
+
+\subsection{Introduction to Game Theory}
+
+\begin{definition}
+\textbf{Game Theory} is the study of mathematical models of strategic interaction among rational decision-makers.
+
+A \textbf{two-player zero-sum game} is a game where:
+\begin{itemize}
+\item Two players make decisions
+\item One player's gain is the other's loss
+\item Total payoff is zero
+\end{itemize}
+\end{definition}
+
+\subsection{Payoff Matrix}
+
+\begin{definition}
+A \textbf{payoff matrix} (or game matrix) shows the outcomes for each combination of strategies.
+
+\textbf{Notation:}
+\begin{itemize}
+\item Rows represent Player A's strategies
+\item Columns represent Player B's strategies
+\item Entries show payoff to Player A (positive = gain, negative = loss)
+\item Player B's payoff is opposite of Player A's
+\end{itemize}
+\end{definition}
+
+\begin{examplebox}
+\textbf{Example 2.1:} Consider the game with payoff matrix:
+
+\begin{center}
+\begin{tabular}{c|cc}
+ & B1 & B2 \\
+\hline
+A1 & 3 & -2 \\
+A2 & -1 & 4 \\
+\end{tabular}
+\end{center}
+
+\textbf{Interpretation:}
+\begin{itemize}
+\item If A plays A1 and B plays B1: A gains 3, B loses 3
+\item If A plays A1 and B plays B2: A loses 2, B gains 2
+\item If A plays A2 and B plays B1: A loses 1, B gains 1
+\item If A plays A2 and B plays B2: A gains 4, B loses 4
+\end{itemize}
+\end{examplebox}
+
+\subsection{Pure Strategies and Saddle Points}
+
+\begin{definition}
+A \textbf{saddle point} is an entry in the payoff matrix that is:
+\begin{itemize}
+\item The minimum in its row, AND
+\item The maximum in its column
+\end{itemize}
+
+If a saddle point exists, it represents the optimal pure strategy for both players, and its value is the \textbf{value of the game}.
+\end{definition}
+
+\begin{examplebox}
+\textbf{Example 2.2:} Find the saddle point, if any:
+
+\begin{center}
+\begin{tabular}{c|ccc}
+ & B1 & B2 & B3 \\
+\hline
+A1 & 2 & 4 & 3 \\
+A2 & 5 & 3 & 6 \\
+A3 & 4 & 2 & 5 \\
+\end{tabular}
+\end{center}
+
+\textbf{Solution:}
+
+Find row minimums (worst for A in each row):
+\begin{itemize}
+\item Row A1: min = 2
+\item Row A2: min = 3
+\item Row A3: min = 2
+\end{itemize}
+
+Find column maximums (worst for B in each column):
+\begin{itemize}
+\item Column B1: max = 5
+\item Column B2: max = 4
+\item Column B3: max = 6
+\end{itemize}
+
+Check if any entry is both row min and column max:
+\begin{itemize}
+\item Entry (A2, B2) = 3 is row min for A2
+\item Entry (A2, B2) = 3 is NOT column max for B2 (max is 4)
+\end{itemize}
+
+Check all systematically:
+\begin{center}
+\begin{tabular}{c|ccc|c}
+ & B1 & B2 & B3 & Row Min\\
+\hline
+A1 & 2 & 4 & 3 & 2\\
+A2 & 5 & 3 & 6 & 3\\
+A3 & 4 & 2 & 5 & 2\\
+\hline
+Col Max & 5 & 4 & 6 & \\
+\end{tabular}
+\end{center}
+
+No entry is both row min and column max, so there is NO saddle point.
+\end{examplebox}
+
+\begin{examplebox}
+\textbf{Example 2.3:} Find the saddle point:
+
+\begin{center}
+\begin{tabular}{c|ccc}
+ & B1 & B2 & B3 \\
+\hline
+A1 & 1 & 3 & 2 \\
+A2 & 4 & 2 & 5 \\
+A3 & 3 & 2 & 4 \\
+\end{tabular}
+\end{center}
+
+\textbf{Solution:}
+
+\begin{center}
+\begin{tabular}{c|ccc|c}
+ & B1 & B2 & B3 & Row Min\\
+\hline
+A1 & 1 & 3 & 2 & 1\\
+A2 & 4 & 2 & 5 & 2\\
+A3 & 3 & 2 & 4 & 2\\
+\hline
+Col Max & 4 & 3 & 5 & \\
+\end{tabular}
+\end{center}
+
+Entry (A2, B2) = 2 is row minimum for A2.
+\newline Entry (A2, B2) = 2 is NOT column maximum for B2 (max is 3).
+
+Entry (A3, B2) = 2 is row minimum for A3.
+\newline Entry (A3, B2) = 2 is NOT column maximum for B2 (max is 3).
+
+No saddle point exists.
+\end{examplebox}
+
+\subsection{Dominance}
+
+\begin{definition}
+\textbf{Dominance:} A strategy dominates another if it is at least as good in all situations and strictly better in at least one.
+
+\textbf{For Player A (row player):}
+\begin{itemize}
+\item Strategy $A_i$ dominates $A_j$ if every entry in row $i$ is $\geq$ corresponding entry in row $j$
+\item Remove dominated rows
+\end{itemize}
+
+\textbf{For Player B (column player):}
+\begin{itemize}
+\item Strategy $B_i$ dominates $B_j$ if every entry in column $i$ is $\leq$ corresponding entry in column $j$
+\item Remove dominated columns
+\end{itemize}
+\end{definition}
+
+\begin{examplebox}
+\textbf{Example 2.4:} Use dominance to simplify:
+
+\begin{center}
+\begin{tabular}{c|ccc}
+ & B1 & B2 & B3 \\
+\hline
+A1 & 2 & 1 & 4 \\
+A2 & 3 & 2 & 5 \\
+A3 & 1 & 0 & 3 \\
+\end{tabular}
+\end{center}
+
+\textbf{Solution:}
+
+For Player A: Compare rows
+\begin{itemize}
+\item A2 vs A1: (3,2,5) vs (2,1,4) - A2 dominates A1 (all entries larger)
+\item A2 vs A3: (3,2,5) vs (1,0,3) - A2 dominates A3 (all entries larger)
+\end{itemize}
+
+Remove A1 and A3:
+
+\begin{center}
+\begin{tabular}{c|ccc}
+ & B1 & B2 & B3 \\
+\hline
+A2 & 3 & 2 & 5 \\
+\end{tabular}
+\end{center}
+
+For Player B: Compare columns (remember B wants to minimize A's payoff)
+\begin{itemize}
+\item B2 vs B1: (2) vs (3) - B2 dominates B1 (smaller for A)
+\item B2 vs B3: (2) vs (5) - B2 dominates B3 (smaller for A)
+\end{itemize}
+
+Remove B1 and B3:
+
+\begin{center}
+\begin{tabular}{c|c}
+ & B2 \\
+\hline
+A2 & 2 \\
+\end{tabular}
+\end{center}
+
+Optimal strategy: A plays A2, B plays B2, value of game = 2
+\end{examplebox}
+
+\columnbreak
+
+\section{Implicit Differentiation}
+
+\subsection{Introduction}
+
+\begin{definition}
+\textbf{Implicit differentiation} is used when $y$ is not explicitly expressed as a function of $x$, but rather $x$ and $y$ are related by an equation like:
+\[F(x, y) = 0\]
+
+Examples: $x^2 + y^2 = 25$, $x^3 + y^3 = 6xy$
+\end{definition}
+
+\subsection{Method of Implicit Differentiation}
+
+\begin{formulabox}
+\textbf{Steps:}
+\begin{enumerate}
+\item Differentiate both sides with respect to $x$
+\item Treat $y$ as a function of $x$ (use chain rule)
+\item When differentiating $y$, multiply by $\frac{dy}{dx}$
+\item Collect all terms with $\frac{dy}{dx}$ on one side
+\item Solve for $\frac{dy}{dx}$
+\end{enumerate}
+
+\textbf{Key Rules:}
+\begin{align*}
+\frac{d}{dx}(y) &= \frac{dy}{dx}\\
+\frac{d}{dx}(y^n) &= ny^{n-1}\frac{dy}{dx}\\
+\frac{d}{dx}(xy) &= x\frac{dy}{dx} + y
+\end{align*}
+\end{formulabox}
+
+\begin{examplebox}
+\textbf{Example 3.1:} Find $\frac{dy}{dx}$ if $x^2 + y^2 = 25$.
+
+\textbf{Solution:}
+Differentiate both sides:
+\begin{align*}
+\frac{d}{dx}(x^2 + y^2) &= \frac{d}{dx}(25)\\
+2x + 2y\frac{dy}{dx} &= 0\\
+2y\frac{dy}{dx} &= -2x\\
+\frac{dy}{dx} &= -\frac{x}{y}
+\end{align*}
+\end{examplebox}
+
+\begin{examplebox}
+\textbf{Example 3.2:} Find $\frac{dy}{dx}$ if $x^3 + y^3 = 6xy$.
+
+\textbf{Solution:}
+Differentiate both sides:
+\begin{align*}
+\frac{d}{dx}(x^3 + y^3) &= \frac{d}{dx}(6xy)\\
+3x^2 + 3y^2\frac{dy}{dx} &= 6\left(x\frac{dy}{dx} + y\right)\\
+3x^2 + 3y^2\frac{dy}{dx} &= 6x\frac{dy}{dx} + 6y\\
+3y^2\frac{dy}{dx} - 6x\frac{dy}{dx} &= 6y - 3x^2\\
+\frac{dy}{dx}(3y^2 - 6x) &= 6y - 3x^2\\
+\frac{dy}{dx} &= \frac{6y - 3x^2}{3y^2 - 6x}\\
+&= \frac{3(2y - x^2)}{3(y^2 - 2x)}\\
+&= \frac{2y - x^2}{y^2 - 2x}
+\end{align*}
+\end{examplebox}
+
+\begin{examplebox}
+\textbf{Example 3.3:} Find $\frac{dy}{dx}$ at the point $(1, 2)$ if $x^2y + xy^2 = 6$.
+
+\textbf{Solution:}
+First, verify the point is on the curve:
+\[1^2(2) + 1(2)^2 = 2 + 4 = 6\] (correct)
+
+Differentiate:
+\begin{align*}
+\frac{d}{dx}(x^2y + xy^2) &= \frac{d}{dx}(6)\\
+x^2\frac{dy}{dx} + 2xy + x(2y\frac{dy}{dx}) + y^2 &= 0\\
+x^2\frac{dy}{dx} + 2xy + 2xy\frac{dy}{dx} + y^2 &= 0\\
+\frac{dy}{dx}(x^2 + 2xy) &= -2xy - y^2\\
+\frac{dy}{dx} &= \frac{-2xy - y^2}{x^2 + 2xy}
+\end{align*}
+
+At $(1, 2)$:
+\begin{align*}
+\frac{dy}{dx} &= \frac{-2(1)(2) - 2^2}{1^2 + 2(1)(2)}\\
+&= \frac{-4 - 4}{1 + 4}\\
+&= \frac{-8}{5}
+\end{align*}
+\end{examplebox}
+
+\section{Integral Calculus}
+
+\subsection{Introduction to Integration}
+
+\begin{definition}
+\textbf{Integration} is the reverse process of differentiation (anti-differentiation).
+
+If $\frac{d}{dx}[F(x)] = f(x)$, then $\int f(x)\,dx = F(x) + C$
+
+where $C$ is the constant of integration.
+\end{definition}
+
+\subsection{Basic Integration Rules}
+
+\begin{formulabox}
+\textbf{Power Rule:}
+\[\int x^n\,dx = \frac{x^{n+1}}{n+1} + C \quad (n \neq -1)\]
+
+\textbf{Basic Integrals:}
+\begin{align*}
+\int k\,dx &= kx + C\\
+\int x^{-1}\,dx &= \ln|x| + C\\
+\int e^x\,dx &= e^x + C\\
+\int \sin x\,dx &= -\cos x + C\\
+\int \cos x\,dx &= \sin x + C
+\end{align*}
+
+\textbf{Sum Rule:}
+\[\int [f(x) + g(x)]\,dx = \int f(x)\,dx + \int g(x)\,dx\]
+
+\textbf{Constant Multiple:}
+\[\int kf(x)\,dx = k\int f(x)\,dx\]
+\end{formulabox}
+
+\begin{examplebox}
+\textbf{Example 4.1:} Find:
+\begin{enumerate}[label=(\alph*)]
+\item $\int 5x^4\,dx$
+\item $\int (3x^2 - 2x + 5)\,dx$
+\item $\int \frac{1}{x^3}\,dx$
+\end{enumerate}
+
+\textbf{Solution:}
+
+\textbf{(a)} $\int 5x^4\,dx = 5 \cdot \frac{x^5}{5} + C = x^5 + C$
+
+\textbf{(b)} 
+\begin{align*}
+\int (3x^2 - 2x + 5)\,dx &= \int 3x^2\,dx - \int 2x\,dx + \int 5\,dx\\
+&= 3 \cdot \frac{x^3}{3} - 2 \cdot \frac{x^2}{2} + 5x + C\\
+&= x^3 - x^2 + 5x + C
+\end{align*}
+
+\textbf{(c)} 
+\begin{align*}
+\int \frac{1}{x^3}\,dx &= \int x^{-3}\,dx\\
+&= \frac{x^{-2}}{-2} + C\\
+&= -\frac{1}{2x^2} + C
+\end{align*}
+\end{examplebox}
+
+\subsection{Definite Integration}
+
+\begin{formulabox}
+\textbf{Definite Integral:}
+\[\int_a^b f(x)\,dx = [F(x)]_a^b = F(b) - F(a)\]
+
+where $F(x)$ is an antiderivative of $f(x)$.
+
+\textbf{Properties:}
+\begin{align*}
+\int_a^b f(x)\,dx &= -\int_b^a f(x)\,dx\\
+\int_a^a f(x)\,dx &= 0\\
+\int_a^b [f(x) + g(x)]\,dx &= \int_a^b f(x)\,dx + \int_a^b g(x)\,dx
+\end{align*}
+\end{formulabox}
+
+\begin{examplebox}
+\textbf{Example 4.2:} Evaluate $\int_1^3 (2x + 1)\,dx$
+
+\textbf{Solution:}
+\begin{align*}
+\int_1^3 (2x + 1)\,dx &= [x^2 + x]_1^3\\
+&= (3^2 + 3) - (1^2 + 1)\\
+&= (9 + 3) - (1 + 1)\\
+&= 12 - 2\\
+&= 10
+\end{align*}
+\end{examplebox}
+
+\begin{examplebox}
+\textbf{Example 4.3:} Evaluate $\int_0^2 (x^2 - 3x + 2)\,dx$
+
+\textbf{Solution:}
+\begin{align*}
+\int_0^2 (x^2 - 3x + 2)\,dx &= \left[\frac{x^3}{3} - \frac{3x^2}{2} + 2x\right]_0^2\\
+&= \left(\frac{8}{3} - \frac{12}{2} + 4\right) - (0)\\
+&= \frac{8}{3} - 6 + 4\\
+&= \frac{8}{3} - 2\\
+&= \frac{8 - 6}{3}\\
+&= \frac{2}{3}
+\end{align*}
+\end{examplebox}
+
+\subsection{Area Under a Curve}
+
+\begin{keypoint}
+The definite integral $\int_a^b f(x)\,dx$ represents the area between the curve $y = f(x)$ and the x-axis from $x = a$ to $x = b$ (assuming $f(x) \geq 0$).
+\end{keypoint}
+
+\begin{examplebox}
+\textbf{Example 4.4:} Find the area bounded by $y = x^2$, the x-axis, and the lines $x = 1$ and $x = 3$.
+
+\textbf{Solution:}
+\begin{align*}
+\text{Area} &= \int_1^3 x^2\,dx\\
+&= \left[\frac{x^3}{3}\right]_1^3\\
+&= \frac{27}{3} - \frac{1}{3}\\
+&= \frac{26}{3}\\
+&= 8\frac{2}{3} \text{ square units}
+\end{align*}
+\end{examplebox}
+
+\section{Practice Exercises}
+
+\subsection{Matrices and Determinants}
+
+\begin{exercise}
+Given $A = \begin{pmatrix} 2 & 1 \\ 3 & 4 \end{pmatrix}$ and $B = \begin{pmatrix} 1 & 2 \\ 0 & 3 \end{pmatrix}$, find:
+\begin{enumerate}[label=(\alph*)]
+\item $A + B$
+\item $2A - B$
+\item $AB$
+\item $|A|$
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Find the inverse of $\begin{pmatrix} 4 & 3 \\ 5 & 4 \end{pmatrix}$
+\end{exercise}
+
+\begin{exercise}
+Solve using matrices:
+\begin{align*}
+2x + y &= 5\\
+x + 3y &= 8
+\end{align*}
+\end{exercise}
+
+\subsection{Game Theory}
+
+\begin{exercise}
+Find the saddle point, if any:
+
+\begin{center}
+\begin{tabular}{c|ccc}
+ & B1 & B2 & B3 \\
+\hline
+A1 & 3 & 2 & 4 \\
+A2 & 1 & 3 & 2 \\
+A3 & 2 & 1 & 3 \\
+\end{tabular}
+\end{center}
+\end{exercise}
+
+\subsection{Implicit Differentiation}
+
+\begin{exercise}
+Find $\frac{dy}{dx}$ for:
+\begin{enumerate}[label=(\alph*)]
+\item $x^2 + y^2 = 16$
+\item $xy = 12$
+\item $x^2 - y^2 = 9$
+\end{enumerate}
+\end{exercise}
+
+\subsection{Integral Calculus}
+
+\begin{exercise}
+Evaluate:
+\begin{enumerate}[label=(\alph*)]
+\item $\int (6x^2 - 4x + 3)\,dx$
+\item $\int_0^1 (2x + 3)\,dx$
+\item $\int_1^2 x^3\,dx$
+\end{enumerate}
+\end{exercise}
+
+\section{Solutions to Selected Exercises}
+
+\textbf{Solution to Exercise 1:}
+
+\textbf{(a)} $A + B = \begin{pmatrix} 3 & 3 \\ 3 & 7 \end{pmatrix}$
+
+\textbf{(b)} $2A - B = \begin{pmatrix} 4 & 2 \\ 6 & 8 \end{pmatrix} - \begin{pmatrix} 1 & 2 \\ 0 & 3 \end{pmatrix} = \begin{pmatrix} 3 & 0 \\ 6 & 5 \end{pmatrix}$
+
+\textbf{(c)} $AB = \begin{pmatrix} 2(1)+1(0) & 2(2)+1(3) \\ 3(1)+4(0) & 3(2)+4(3) \end{pmatrix} = \begin{pmatrix} 2 & 7 \\ 3 & 18 \end{pmatrix}$
+
+\textbf{(d)} $|A| = 2(4) - 1(3) = 8 - 3 = 5$
+
+\textbf{Solution to Exercise 2:}
+\begin{align*}
+|A| &= 4(4) - 3(5) = 16 - 15 = 1\\
+A^{-1} &= \frac{1}{1}\begin{pmatrix} 4 & -3 \\ -5 & 4 \end{pmatrix} = \begin{pmatrix} 4 & -3 \\ -5 & 4 \end{pmatrix}
+\end{align*}
+
+\textbf{Solution to Exercise 5(a):}
+\begin{align*}
+2x + 2y\frac{dy}{dx} &= 0\\
+\frac{dy}{dx} &= -\frac{x}{y}
+\end{align*}
+
+\textbf{Solution to Exercise 6(a):}
+\[\int (6x^2 - 4x + 3)\,dx = 2x^3 - 2x^2 + 3x + C\]
+
+\textbf{Solution to Exercise 6(b):}
+\begin{align*}
+\int_0^1 (2x + 3)\,dx &= [x^2 + 3x]_0^1\\
+&= (1 + 3) - 0\\
+&= 4
+\end{align*}
+
+\section{Summary}
+
+\begin{formulabox}
+\textbf{Matrices:}
+\begin{itemize}
+\item Addition: Same size, add corresponding elements
+\item Multiplication: $(m \times n)(n \times p) = (m \times p)$
+\item Determinant (2×2): $ad - bc$
+\item Inverse (2×2): $A^{-1} = \frac{1}{|A|}\begin{pmatrix} d & -b \\ -c & a \end{pmatrix}$
+\end{itemize}
+
+\textbf{Game Theory:}
+\begin{itemize}
+\item Saddle point = row min AND column max
+\item Use dominance to simplify
+\end{itemize}
+
+\textbf{Implicit Differentiation:}
+\begin{itemize}
+\item Differentiate both sides with respect to $x$
+\item Use $\frac{d}{dx}(y^n) = ny^{n-1}\frac{dy}{dx}$
+\item Solve for $\frac{dy}{dx}$
+\end{itemize}
+
+\textbf{Integration:}
+\begin{itemize}
+\item $\int x^n\,dx = \frac{x^{n+1}}{n+1} + C$
+\item $\int_a^b f(x)\,dx = F(b) - F(a)$
+\end{itemize}
+\end{formulabox}
+
+\vfill
+
+\begin{center}
+\textbf{\Large End of Lecture Notes}\\[0.3cm]
+\textit{Practice systematically - these topics build mathematical maturity!}\\[0.5cm]
+\rule{0.5\textwidth}{0.4pt}
+\end{center}
+
+\end{multicols}
+
+\end{document}
